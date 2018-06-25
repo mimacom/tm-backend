@@ -4,6 +4,18 @@ provider "aws" {
   profile = "mimacom"
 }
 
+terraform {
+  backend "s3" {
+    encrypt                 = false
+    bucket                  = "mimacom-tm-tfstate"
+    dynamodb_table          = "terraform-state-lock-dynamo"
+    region                  = "eu-central-1"
+    key                     = "services"
+    shared_credentials_file = "~/.aws/credentials"
+    profile                 = "mimacom"
+  }
+}
+
 locals {
   app_name = "tm"
 }

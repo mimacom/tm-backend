@@ -9,9 +9,3 @@ output "nomad_server_ip" {
 output "bastion_ip" {
   value = "${data.aws_instance.bastion.public_ip}"
 }
-
-/*
-output "jobspec" {
-  value = "${data.template_file.app_job_spec.rendered}"
-}
-*/

@@ -61,19 +61,6 @@ exec_goal() {
   fi
 }
 
-goal_shuttle() {
-  ENV=${1}
-  shift
-  if [[ ! -f "terraform.tfstate.d/${ENV}/terraform.tfstate" ]]; then
-    prepare ${ENV}
-  fi
-  OUTPUT=`TF_WORKSPACE=${ENV} terraform output`
-  BASTION_IP=`printf "${OUTPUT}" | awk '/bastion_server_ip/{printf "%s", $3}'`
-  VPC_CIDR=`printf "${OUTPUT}" | awk '/vpc_cidr/{printf "%s", $3}'`
-  shift
-  sshuttle -v -e "ssh -i infra/keys/id_rsa" -r ec2-user@${BASTION_IP} ${VPC_CIDR} "$@"
-}
-
 if type -t "goal_$1" &>/dev/null; then
   goal_$1 ${@:2}
 else

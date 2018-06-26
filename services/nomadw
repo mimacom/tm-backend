@@ -46,8 +46,6 @@ cache() {
   echo CIDR=`printf "${OUTPUT}" | awk '/vpc_cidr/{printf "%s", $3}'` >> ${CACHE_FILE}
 }
 
-set -x
-
 goal_prepare() {
   rm ${CACHE_DIR}/${1}/.cache || true
   prepare "$1"

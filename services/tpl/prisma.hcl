@@ -19,7 +19,9 @@ job "prisma" {
         memory = 2000
         network {
           mbits = 10
-          port "prisma" {}
+          port "prisma" {
+            static = 4466
+          }
         }
       }
       env {
@@ -35,7 +37,7 @@ job "prisma" {
         SQL_INTERNAL_PASSWORD = "${DB_PASS}"
         SQL_INTERNAL_DATABASE = "graphcool"
         SQL_INTERNAL_CONNECTION_LIMIT = 10
-        CLUSTER_ADDRESS = "http://$${NOMAD_ADDR_prisma_prisma}"
+        CLUSTER_ADDRESS = "http://$${NOMAD_ADDR_prisma}"
         SCHEMA_MANAGER_SECRET = "graphcool"
         BUGSNAG_API_KEY = ""
         MANAGEMENT_API_SECRET = ""

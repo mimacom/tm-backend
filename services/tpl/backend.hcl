@@ -10,20 +10,20 @@ job "backend" {
       driver = "docker"
       config {
         image = "ntrp/tm-backend:latest"
-        port_map {
-          backend = 4000
-        }
+        network_mode = "host"
       }
       resources {
         cpu = 3000
         memory = 2000
         network {
           mbits = 10
-          port "backend" {}
+          port "backend" {
+            static = 4000
+          }
         }
       }
       env {
-        PRISMA_ENDPOINT = "http://$${NOMAD_ADDR_prisma_prisma}"
+        PRISMA_ENDPOINT = "http://prisma.service.consul:4466"
         APP_SECRET = "${APP_SECRET}"
       }
       service {

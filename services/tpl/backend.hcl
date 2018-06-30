@@ -11,6 +11,7 @@ job "backend" {
       config {
         image = "ntrp/tm-backend:latest"
         network_mode = "host"
+        force_pull = true
       }
       resources {
         cpu = 3000
@@ -25,6 +26,11 @@ job "backend" {
       env {
         PRISMA_ENDPOINT = "http://prisma.service.consul:4466"
         APP_SECRET = "${APP_SECRET}"
+        LDAP_URL = "${LDAP_URL}"
+        LDAP_PRINCIPAL = "${LDAP_PRINCIPAL}"
+        LDAP_PASSWORD = "${LDAP_PASSWORD}"
+        LDAP_SEARCH_BASE = "${LDAP_SEARCH_BASE}"
+        LDAP_SEARCH_FILTER = "${LDAP_SEARCH_FILTER}"
       }
       service {
         name = "app"
@@ -32,7 +38,7 @@ job "backend" {
 
         tags = [
           "backend",
-          "urlprefix-${ELB_ADDR}/"
+          "urlprefix-backend${ENV}.mimacom-tm.tk/"
         ]
 
         check {

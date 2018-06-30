@@ -61,11 +61,3 @@ data "aws_instance" "bastion" {
     Application = "${local.app_name}"
   }
 }
-
-data "aws_elb" "elb" {
-  name = "backend"
-  tags {
-    Environment = "${terraform.workspace}"
-    Application = "${local.app_name}"
-  }
-}

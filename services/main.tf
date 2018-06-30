@@ -14,7 +14,12 @@ data "template_file" "backend_job_spec" {
   template = "${file("./tpl/backend.hcl")}"
   vars {
     APP_SECRET = "${data.aws_secretsmanager_secret_version.app_secret.secret_string}"
-    ELB_ADDR = "${data.aws_elb.elb.dns_name}"
+    ENV = "${terraform.workspace == "dev" ? ".dev" : ""}"
+    LDAP_URL = "${var.LDAP_URL}"
+    LDAP_PRINCIPAL = "${var.LDAP_PRINCIPAL}"
+    LDAP_PASSWORD = "${var.LDAP_PASSWORD}"
+    LDAP_SEARCH_BASE = "${var.LDAP_SEARCH_BASE}"
+    LDAP_SEARCH_FILTER = "${var.LDAP_SEARCH_FILTER}"
   }
 }
 
@@ -33,3 +38,9 @@ resource "nomad_job" "backend" {
 resource "nomad_job" "flb" {
   jobspec = "${data.template_file.flb_job_spec.rendered}"
 }
+
+variable "LDAP_URL" {}
+variable "LDAP_PRINCIPAL" {}
+variable "LDAP_PASSWORD" {}
+variable "LDAP_SEARCH_BASE" {}
+variable "LDAP_SEARCH_FILTER" {}

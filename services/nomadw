@@ -61,16 +61,23 @@ goal_prod() {
 }
 
 goal_deploy() {
-  exec_tf ${1} "apply"
+  ENV=${1}
+  shift
+  exec_tf ${ENV} "apply" "$@"
 }
 
 goal_destroy() {
-  exec_tf ${1} "destroy"
+  ENV=${1}
+  shift
+  exec_tf ${ENV} "destroy" "$@"
 }
 
 exec_tf() {
   ENV=${1}
-  TF_WORKSPACE=${ENV} terraform ${2}
+  shift
+  CMD=${1}
+  shift
+  TF_WORKSPACE=${ENV} terraform ${CMD} "$@"
 }
 
 exec_nomad() {

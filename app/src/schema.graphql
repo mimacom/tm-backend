@@ -1,32 +1,44 @@
-# import Post from "./generated/prisma.graphql"
+# import TestSubscriptionPaylod from "./gen/prisma.graphql"
+
+### TO DELETE
+type Test {
+    id: ID!
+    name: String!
+    description: String
+}
+###
 
 type Query {
-  feed: [Post!]!
-  drafts: [Post!]!
-  post(id: ID!): Post
-  me: User
+    ### TO DELETE
+    tests: [Test!]!
+    ###
+    me: User!
 }
 
 type Mutation {
-  signup(email: String!, password: String!, name: String!): AuthPayload!
-  login(email: String!, password: String!): AuthPayload!
-  createDraft(title: String!, text: String!): Post!
-  publish(id: ID!): Post!
-  deletePost(id: ID!): Post!
+    login(username: String!, password: String!): AuthPayload!
+    loginLdap(username: String!, password: String!): AuthPayload!
 }
 
 type Subscription {
-  feedSubscription: PostSubscriptionPayload!
+    testSubscription: TestSubscriptionPayload!
 }
 
 type AuthPayload {
-  token: String!
-  user: User!
+    token: String!
+    user: User!
 }
 
 type User {
-  id: ID!
-  email: String!
-  name: String!
-  posts: [Post!]!
+    id: ID!
+    username: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    title: String
+    location: String
+    countryCode: String
+    workPhone: String
+    workMobile: String
+    mobile: String
 }

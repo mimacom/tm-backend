@@ -7,7 +7,10 @@
     "rootDir": "src",
     "outDir": "dist",
     "lib": [
-      "esnext", "dom"
+      "es6",
+      "dom",
+      "es2015.iterable",
+      "esnext"
     ]
   }
 }

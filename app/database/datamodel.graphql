@@ -1,17 +1,40 @@
-type Post {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  isPublished: Boolean! @default(value: "false")
-  title: String!
-  text: String!
-  author: User!
+type Test {
+    id: ID! @unique
+    name: String!
+    description: String
 }
 
 type User {
-  id: ID! @unique
-  email: String! @unique
-  password: String!
-  name: String!
-  posts: [Post!]!
+    id: ID! @unique
+    username: String! @unique
+    email: String! @unique
+    password: String!
+    firstName: String!
+    lastName: String!
+    title: String
+    location: String
+    countryCode: String
+    workPhone: String
+    workMobile: String
+    mobile: String
+}
+
+type Client {
+    id: ID! @unique
+    name: String!
+    description: String!
+}
+
+type Project {
+    id: ID! @unique
+    name: String!
+    description: String!
+}
+
+type Expense {
+    id: ID! @unique
+}
+
+type ExpenseType {
+    id: ID! @unique
 }

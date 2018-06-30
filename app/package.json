@@ -2,17 +2,20 @@
     "name": "tm-backend",
     "scripts": {
         "start": "ts-node src/index.ts",
-        "start-dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
-        "dev": "npm-run-all --parallel start-dev playground",
+        "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
         "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
         "playground": "graphql playground",
-        "build": "rimraf dist && tsc",
+        "dev-all": "npm-run-all --parallel dev playground",
+        "schema": "graphql get-schema -p database",
+        "types": "graphql codegen",
+        "regen-schema": "run-s schema types",
         "prisma": "prisma"
     },
     "dependencies": {
         "bcryptjs": "2.4.3",
         "graphql-yoga": "1.14.10",
         "jsonwebtoken": "8.3.0",
+        "ldapauth-fork-plus": "^4.0.1",
         "prisma-binding": "2.1.0"
     },
     "devDependencies": {

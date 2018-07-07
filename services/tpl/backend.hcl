@@ -38,7 +38,7 @@ job "backend" {
 
         tags = [
           "backend",
-          "urlprefix-backend${ENV}.mimacom-tm.tk/"
+          "urlprefix-backend-${ENV}.tm.mimacom.solutions/"
         ]
 
         check {

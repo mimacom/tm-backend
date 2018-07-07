@@ -14,7 +14,7 @@ data "template_file" "backend_job_spec" {
   template = "${file("./tpl/backend.hcl")}"
   vars {
     APP_SECRET = "${data.aws_secretsmanager_secret_version.app_secret.secret_string}"
-    ENV = "${terraform.workspace == "dev" ? ".dev" : ""}"
+    ENV = "${terraform.workspace}"
     LDAP_URL = "${var.LDAP_URL}"
     LDAP_PRINCIPAL = "${var.LDAP_PRINCIPAL}"
     LDAP_PASSWORD = "${var.LDAP_PASSWORD}"

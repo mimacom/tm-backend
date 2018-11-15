@@ -1,7 +1,26 @@
-provider "nomad" {
-  address = "http://${data.aws_instance.nomad-server.private_ip}:4646"
+terraform {
+  backend "s3" {
+    encrypt                 = false
+    bucket                  = "mimacom-tm-terraform-state"
+    dynamodb_table          = "terraform-state-lock"
+    region                  = "eu-central-1"
+    key                     = "services"
+    shared_credentials_file = "~/.aws/credentials"
+    profile                 = "mimacom"
+  }
 }
 
+provider "aws" {
+  region                  = "eu-central-1"
+  shared_credentials_file = "~/.aws/credentials"
+  profile                 = "mimacom"
+}
+
+provider "nomad" {
+  address = "http://${data.aws_alb.nomad.dns_name}:4646"
+}
+
+/*
 data "template_file" "prisma_job_spec" {
   template = "${file("./tpl/prisma.hcl")}"
   vars {
@@ -10,10 +29,17 @@ data "template_file" "prisma_job_spec" {
   }
 }
 
+
+resource "nomad_job" "prisma" {
+  jobspec = "${data.template_file.prisma_job_spec.rendered}"
+}
+
+*/
+
 data "template_file" "backend_job_spec" {
   template = "${file("./tpl/backend.hcl")}"
   vars {
-    APP_SECRET = "${data.aws_secretsmanager_secret_version.app_secret.secret_string}"
+    JWT_SECRET = "${data.aws_secretsmanager_secret_version.app_secret.secret_string}"
     ENV = "${terraform.workspace}"
     LDAP_URL = "${var.LDAP_URL}"
     LDAP_PRINCIPAL = "${var.LDAP_PRINCIPAL}"
@@ -23,16 +49,12 @@ data "template_file" "backend_job_spec" {
   }
 }
 
-data "template_file" "flb_job_spec" {
-  template = "${file("./tpl/flb.hcl")}"
-}
-
-resource "nomad_job" "prisma" {
-  jobspec = "${data.template_file.prisma_job_spec.rendered}"
-}
-
 resource "nomad_job" "backend" {
   jobspec = "${data.template_file.backend_job_spec.rendered}"
+}
+
+data "template_file" "flb_job_spec" {
+  template = "${file("./tpl/flb.hcl")}"
 }
 
 resource "nomad_job" "flb" {

@@ -1,5 +1,6 @@
 job "backend" {
   datacenters = [
+    "dc1",
     "eu-central-1a",
     "eu-central-1b",
     "eu-central-1c"
@@ -14,8 +15,8 @@ job "backend" {
         force_pull = true
       }
       resources {
-        cpu = 3000
-        memory = 2000
+        cpu = 512
+        memory = 256
         network {
           mbits = 10
           port "backend" {
@@ -25,7 +26,7 @@ job "backend" {
       }
       env {
         PRISMA_ENDPOINT = "http://prisma.service.consul:4466"
-        APP_SECRET = "${APP_SECRET}"
+        JWT_SECRET = "${JWT_SECRET}"
         LDAP_URL = "${LDAP_URL}"
         LDAP_PRINCIPAL = "${LDAP_PRINCIPAL}"
         LDAP_PASSWORD = "${LDAP_PASSWORD}"

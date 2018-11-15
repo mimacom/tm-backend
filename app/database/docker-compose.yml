@@ -3,7 +3,7 @@ services:
   prisma:
     depends_on:
       - mysql
-    image: prismagraphql/prisma:1.10
+    image: prismagraphql/prisma:1.20
     restart: always
     ports:
     - "4466:4466"
@@ -15,11 +15,11 @@ services:
         databases:
           default:
             connector: mysql
+            migrations: true
             host: mysql
             port: 3306
             user: root
             password: prisma
-            migrations: true
   mysql:
     image: mysql:5.7
     restart: always

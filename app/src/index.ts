@@ -1,6 +1,7 @@
 import {GraphQLServer} from 'graphql-yoga'
 import {Prisma} from './gen/prisma'
 import resolvers from './resolvers'
+import {security} from './resolvers/security';
 
 const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
@@ -8,6 +9,7 @@ const server = new GraphQLServer({
     resolverValidationOptions: {
         requireResolversForResolveType: false
     },
+    middlewares: [security],
     context: req => ({
         ...req,
         db: new Prisma({

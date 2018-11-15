@@ -17,7 +17,7 @@ export const auth = {
         }
 
         return {
-            token: jwt.sign({userId: user.id}, process.env.APP_SECRET),
+            token: jwt.sign({userId: user.id}, process.env.JWT_SECRET),
             user
         }
     },
@@ -70,7 +70,7 @@ export const auth = {
 
                 dbLookup(ldapUser).then(user =>  {
                     resolve({
-                        token: jwt.sign({id: user.id}, process.env.APP_SECRET),
+                        token: jwt.sign({id: user.id}, process.env.JWT_SECRET),
                         user
                     });
                 });

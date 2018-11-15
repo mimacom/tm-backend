@@ -4,8 +4,8 @@ projects:
     extensions:
       endpoints:
         local: http://localhost:4000
-        dev: http://backend.dev.mimacom-tm.tk
-        prod: http://backend.mimacom-tm.tk
+        dev: http://backend-dev.tm.mimacom.solutions
+        prod: http://backend.tm.mimacom.solutions
   database:
     schemaPath: src/gen/prisma.graphql
     extensions:

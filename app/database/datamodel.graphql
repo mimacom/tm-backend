@@ -1,11 +1,13 @@
-type Test {
-    id: ID! @unique
-    name: String!
-    description: String
+enum Role {
+    USER,
+    MANAGER,
+    ADMIN
 }
 
 type User {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
     username: String! @unique
     email: String! @unique
     password: String!
@@ -17,24 +19,40 @@ type User {
     workPhone: String
     workMobile: String
     mobile: String
+    role: Role @default(value: "USER")
 }
 
 type Client {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    createdBy: User!
     name: String!
-    description: String!
 }
 
 type Project {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    createdBy: User!
+    client: Client!
     name: String!
-    description: String!
 }
 
 type Expense {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    createdBy: User!
+    type: ExpenseType!
+    amount: Float!
 }
 
 type ExpenseType {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    code: String!
+    name: String!
+    description: String
 }

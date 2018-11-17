@@ -1,14 +1,17 @@
-import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
-import {Context} from '../../utils'
+import * as bcrypt from 'bcryptjs'
 import * as LdapAuth from 'ldapauth-fork-plus';
 
-export const auth = {
+import {Context} from 'interfaces/context';
+import {User} from 'gen/prisma';
 
-    async login(parent, {username, password}, ctx: Context, info) {
-        const user = await ctx.db.query.user({where: {username}});
+export const Mutation: any = {
+
+    login: async (parent, {username, password}, ctx: Context) => {
+
+        const user = await ctx.prisma.query.user({where: {username}});
         if (!user) {
-            throw new Error(`No such user found for username: ${username}`)
+            throw new Error(`No user found for specified username: ${username}`)
         }
 
         const valid = await bcrypt.compare(password, user.password);
@@ -17,22 +20,22 @@ export const auth = {
         }
 
         return {
-            token: jwt.sign({userId: user.id}, process.env.JWT_SECRET),
+            token: jwt.sign({id: user.id}, process.env.JWT_SECRET),
             user
         }
     },
 
-    async loginLdap(parent, {username, password}, ctx: Context, info) {
+    loginLdap: async (parent, {username, password}, ctx: Context) => {
 
-        const dbLookup = async (ldapUser: any) => {
+        const dbLookup = async (ldapUser: any): Promise<User> => {
 
-            const dbUser = await ctx.db.query.user({where: {email: ldapUser.email}});
+            const dbUser = await ctx.prisma.query.user({where: {email: ldapUser.email}});
 
             let user;
             if (dbUser) {
-                user = await ctx.db.mutation.updateUser({data: ldapUser, where: {email: ldapUser.email}});
+                user = await ctx.prisma.mutation.updateUser({data: ldapUser, where: {email: ldapUser.email}});
             } else {
-                user = await ctx.db.mutation.createUser({data: ldapUser});
+                user = await ctx.prisma.mutation.createUser({data: ldapUser});
             }
             return user;
         };
@@ -41,17 +44,22 @@ export const auth = {
 
             const ldap = new LdapAuth({
                 url: process.env.LDAP_URL,
-                bindDN: process.env.LDAP_PRICIPAL,
+                bindDN: process.env.LDAP_PRINCIPAL,
                 bindCredentials: process.env.LDAP_PASSWORD,
                 searchBase: process.env.LDAP_SEARCH_BASE,
                 searchFilter: process.env.LDAP_SEARCH_FILTER,
-                reconnect: true
-            });
+                reconnect: false,
+                tlsOptions: {
+                    rejectUnauthorized: false
+                },
+                timeout: 3000,
+                connectTimeout: 3000
+            } as LdapAuth.Options);
 
-            ldap.authenticate(username, password, (error, ldapQueryUser) => {
+            ldap.authenticate(username, password, async (error, ldapQueryUser) => {
 
                 if (error) {
-                    throw new Error(`Auth failed: ${error}`);
+                    throw new Error('Failed to authenticate: ' + error);
                 }
 
                 const ldapUser: any = {
@@ -68,14 +76,13 @@ export const auth = {
                     mobile: ldapQueryUser.mobile
                 };
 
-                dbLookup(ldapUser).then(user =>  {
-                    resolve({
-                        token: jwt.sign({id: user.id}, process.env.JWT_SECRET),
-                        user
-                    });
+                let user = await dbLookup(ldapUser);
+
+                resolve({
+                    token: jwt.sign({id: user.id}, process.env.JWT_SECRET),
+                    user
                 });
             });
         });
-
     }
 };

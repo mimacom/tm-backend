@@ -1,16 +1,23 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "moduleResolution": "node",
-    "module": "commonjs",
-    "sourceMap": true,
-    "rootDir": "src",
-    "outDir": "dist",
-    "lib": [
-      "es6",
-      "dom",
-      "es2015.iterable",
-      "esnext"
+    "compilerOptions": {
+        "target": "es6",
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "dist",
+        "lib": [
+            "es6",
+            "esnext"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "./src/*"
+            ]
+        }
+    },
+    "files": [
+        "src/index.ts"
     ]
-  }
 }

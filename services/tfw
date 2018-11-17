@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+checkmark="\xe2\x98\x91"
+cross="\xe2\x98\x92"
+
+startred='\033[0;31m'
+endcolor='\033[0m'
+startgreen='\033[0;32m'
+
+echob() {
+  echo -e "\033[1m$1\033[0m"
+}
+
+echoCheck() {
+  echo -e "$startgreen $checkmark $1 $endcolor"
+}
+
+echoError() {
+  echo -e "$startred $cross $1 $endcolor"
+}
+
+check() { # checks is a tool is working
+  if ! type "$1" > /dev/null 2>&1; then
+    echoError "$2"
+    exit 1
+  else
+    echoCheck "$3"
+  fi
+}
+
+goal_fmt() {
+  terraform fmt
+}
+
+goal_dev() {
+  exec_goal dev "$@"
+}
+
+goal_prod() {
+  exec_goal prod "$@"
+}
+
+exec_goal() {
+  check "terraform" "Terraform not installed!" "Terraform available"
+  VARS=""
+  ENV=${1}
+  shift
+  CMD=${1}
+  shift
+  if [[ "$CMD" != "output" || "$CMD" != "taint" ]]; then
+    VARS="-var-file=.tfvars"
+  fi
+  TF_WORKSPACE=${ENV} terraform ${CMD} ${VARS} "$@"
+}
+
+if type -t "goal_$1" &>/dev/null; then
+  goal_$1 ${@:2}
+else
+  echo "usage: $0 <goal>
+
+goal:
+    fmt                      -- format the codebase
+    dev <commands>           -- execute terraform goals on dev
+    prod <commands>          -- execute terraform goals on prod
+"
+  exit 1
+fi

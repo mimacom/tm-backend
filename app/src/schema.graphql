@@ -1,17 +1,6 @@
-# import TestSubscriptionPaylod from "./gen/prisma.graphql"
-
-### TO DELETE
-type Test {
-    id: ID!
-    name: String!
-    description: String
-}
-###
+# import User from "./gen/prisma.graphql"
 
 type Query {
-    ### TO DELETE
-    tests: [Test!]!
-    ###
     me: User!
 }
 
@@ -21,24 +10,10 @@ type Mutation {
 }
 
 type Subscription {
-    testSubscription: TestSubscriptionPayload!
+    clients: ClientSubscriptionPayload!
 }
 
 type AuthPayload {
     token: String!
     user: User!
-}
-
-type User {
-    id: ID!
-    username: String!
-    email: String!
-    firstName: String!
-    lastName: String!
-    title: String
-    location: String
-    countryCode: String
-    workPhone: String
-    workMobile: String
-    mobile: String
 }

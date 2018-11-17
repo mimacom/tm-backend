@@ -22,10 +22,14 @@ job "backend" {
           port "backend" {
             static = 4000
           }
+          port "debug" {
+            static = 9229
+          }
         }
       }
       env {
-        PRISMA_ENDPOINT = "http://prisma.service.consul:4466"
+        PRISMA_ENDPOINT = "http://$${NOMAD_IP_backend}:4466"
+        PRISMA_DEBUG = "true"
         JWT_SECRET = "${JWT_SECRET}"
         LDAP_URL = "${LDAP_URL}"
         LDAP_PRINCIPAL = "${LDAP_PRINCIPAL}"

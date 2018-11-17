@@ -4,12 +4,15 @@ projects:
     extensions:
       endpoints:
         local: http://localhost:4000
-        dev: http://backend-dev.tm.mimacom.solutions
-        prod: http://backend.tm.mimacom.solutions
+        dev: https://backend-dev.tm.mimacom.solutions
+        prod: https://backend-prod.tm.mimacom.solutions
   database:
     schemaPath: src/gen/prisma.graphql
     extensions:
-      prisma: database/prisma.yml
+      endpoints:
+        local: http://localhost:4466
+        dev: https://prisma-dev.tm.mimacom.solutions
+        prod: https://prisma-prod.tm.mimacom.solutions
       codegen:
         - generator: prisma-binding
           language: typescript

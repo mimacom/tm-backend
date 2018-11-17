@@ -1,5 +1,15 @@
+# REQUIRED
+# This service is based on the type definitions in the two files
+# `database/types.graphql` and `database/enums.graphql`
+datamodel:
+- datamodel.graphql
+
 # The endpoint of your Prisma API (deployed to a Prisma Sandbox).
 endpoint: ${env:PRISMA_ENDPOINT}
 
-# The file containing the definition of your data model.
-datamodel: datamodel.graphql
+# OPTIONAL
+# The secret is used to create JSON web tokens (JWTs). These tokens need to be
+# attached in the `Authorization` header of HTTP requests against the Prisma endpoint.
+# WARNING: If the secret is not provided, the Prisma API can be accessed
+# without authentication!
+#secret: ${env:PRISMA_SECRET}

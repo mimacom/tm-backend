@@ -1,34 +1,46 @@
 {
     "name": "tm-backend",
+    "_moduleAliases": {
+        "gen": "dist/gen",
+        "interfaces": "dist/interfaces",
+        "utils": "dist/utils"
+    },
     "scripts": {
-        "start": "ts-node src/index.ts",
-        "run-dev": "node --inspect=0.0.0.0 -r ts-node/register src/index.ts",
-        "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
-        "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
+        "start": "node -r tsconfig-paths/register -r ts-node/register src/index.ts",
+        "dev": "dotenv -- nodemon -x node -r module-alias/register --inspect dist/index.js",
+        "build": "tsc",
+        "build:watch": "tsc -w",
+        "prepackage": "npm-run-all build",
+        "package": "docker build -t ntrp/tm-backend .",
+        "prepush": "npm-run-all package",
+        "push": "docker push ntrp/tm-backend",
+        "run:dev": "node -r module-alias/register --inspect=0.0.0.0 dist/index.js",
+        "run:prod": "node -r module-alias/register dist/index.js",
         "playground": "graphql playground",
-        "dev-all": "npm-run-all --parallel dev playground",
+        "dev-all": "npm-run-all --parallel build:watch dev playground",
         "schema": "graphql get-schema -p database",
         "types": "graphql codegen",
-        "regen-schema": "run-s schema types",
-        "prisma": "prisma"
+        "regen-schema": "run-s schema types"
     },
     "dependencies": {
+        "module-alias": "2.1.0",
+        "graphql-yoga": "1.16.7",
+        "graphql-shield": "4.1.0",
+        "prisma-binding": "2.1.6",
+        "express-jwt": "5.3.1",
+        "jsonwebtoken": "8.4.0",
         "bcryptjs": "2.4.3",
-        "graphql-shield": "^2.2.6",
-        "graphql-yoga": "1.14.10",
-        "jsonwebtoken": "8.3.0",
-        "ldapauth-fork-plus": "^4.0.1",
-        "prisma-binding": "2.1.0"
+        "ldapauth-fork-plus": "4.0.1"
     },
     "devDependencies": {
-        "@types/bcryptjs": "2.4.1",
+        "@types/bcryptjs": "2.4.2",
         "dotenv-cli": "1.4.0",
-        "graphql-cli": "^2.16.4",
-        "nodemon": "1.17.5",
+        "graphql-cli": "2.16.4",
+        "nodemon": "1.18.6",
         "npm-run-all": "4.1.3",
-        "prisma": "^1.11.1",
+        "prisma": "1.11.1",
         "rimraf": "2.6.2",
-        "ts-node": "6.2.0",
-        "typescript": "2.9.2"
+        "ts-node": "7.0.1",
+        "typescript": "3.1.6"
     }
 }

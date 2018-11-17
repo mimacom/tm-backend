@@ -1,13 +1,13 @@
-import {Query} from './Query'
-import {Subscription} from './Subscription'
-import {auth} from './Mutation/auth'
-import {AuthPayload} from './AuthPayload'
+import {Query as me} from './queries/me'
+import {Mutation as auth} from './mutations/auth'
 
-export default {
-    Query,
-    Mutation: {
-        ...auth,
+const resolvers = {
+    Query: {
+        ...me
     },
-    Subscription,
-    AuthPayload
-}
+    Mutation: {
+        ...auth
+    }
+};
+
+export {resolvers};

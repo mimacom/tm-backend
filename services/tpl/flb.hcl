@@ -18,11 +18,11 @@ job "flb" {
       driver = "exec"
 
       config {
-        command = "fabio-1.5.9-go1.10.2-linux_amd64"
+        command = "fabio-${FLB_VERSION}-go${GO_VERSION}-linux_amd64"
       }
 
       artifact {
-        source = "https://github.com/fabiolb/fabio/releases/download/v1.5.9/fabio-1.5.9-go1.10.2-linux_amd64"
+        source = "https://github.com/fabiolb/fabio/releases/download/v${FLB_VERSION}/fabio-${FLB_VERSION}-go${GO_VERSION}-linux_amd64"
       }
 
       resources {

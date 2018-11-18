@@ -3,11 +3,7 @@ import {Request} from 'express';
 
 export const getUserId = (request: Request) => {
 
-    console.log("getUserId called");
-
     const authHeader = request.header('Authorization');
-
-    console.log("Header: " + authHeader);
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
         const token = authHeader.replace('Bearer ', '');

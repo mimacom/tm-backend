@@ -1,12 +1,16 @@
-import {Query as me} from './queries/me'
-import {Mutation as auth} from './mutations/auth'
+import {Query as meQuery} from './queries/me'
+import {Mutation as authMutation} from './mutations/auth'
+import {Subscription as meSubscription} from './subscriptions/me'
 
 const resolvers = {
     Query: {
-        ...me
+        ...meQuery
     },
     Mutation: {
-        ...auth
+        ...authMutation
+    },
+    Subscription: {
+        ...meSubscription
     }
 };
 

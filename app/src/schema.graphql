@@ -10,7 +10,7 @@ type Mutation {
 }
 
 type Subscription {
-    clients: ClientSubscriptionPayload!
+    me: UserSubscriptionPayload!
 }
 
 type AuthPayload {

@@ -22,7 +22,7 @@ const server = new GraphQLServer({
     ],
     context: (params: ContextParameters) => ({
         ...params,
-        user: params.request['user'],
+        user: params.request && params.request['user'],
         prisma
     })
 } as Props);

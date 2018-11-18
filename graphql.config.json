@@ -1,0 +1,43 @@
+{
+  "schema": {
+    "request": {
+      "url" : "https://backend-dev.tm.mimacom.solutions",
+      "method" : "POST",
+      "postIntrospectionQuery" : true,
+      "options" : {
+        "headers": {
+          "user-agent" : "JS GraphQL"
+        }
+      }
+    }
+  },
+  "endpoints" : [
+    {
+      "name": "local",
+      "url": "http://localhost:4000",
+      "options" : {
+        "headers": {
+          "user-agent" : "JS GraphQL"
+        }
+      }
+    },
+    {
+      "name": "dev",
+      "url": "https://backend-dev.tm.mimacom.solutions",
+      "options" : {
+        "headers": {
+          "user-agent" : "JS GraphQL"
+        }
+      }
+    },
+    {
+      "name": "prod",
+      "url": "https://backend-prod.tm.mimacom.solutions",
+      "options" : {
+        "headers": {
+          "user-agent" : "JS GraphQL"
+        }
+      }
+    }
+  ]
+}

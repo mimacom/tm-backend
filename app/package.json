@@ -18,7 +18,7 @@
         "run:prod": "node -r module-alias/register dist/index.js",
         "playground": "graphql playground",
         "dev-all": "npm-run-all --parallel build:watch dev playground",
-        "schema": "graphql get-schema -p database",
+        "schema": "graphql get-schema -p database -e dev --all false",
         "types": "graphql codegen",
         "regen-schema": "run-s schema types"
     },

@@ -3,7 +3,6 @@ import * as bcrypt from 'bcryptjs'
 import * as LdapAuth from 'ldapauth-fork-plus';
 
 import {Context} from 'interfaces/context';
-import {User} from 'gen/prisma';
 
 export const Mutation: any = {
 
@@ -20,25 +19,12 @@ export const Mutation: any = {
         }
 
         return {
-            token: jwt.sign({id: user.id}, process.env.JWT_SECRET),
+            token: jwt.sign(user, process.env.JWT_SECRET),
             user
         }
     },
 
     loginLdap: async (parent, {username, password}, ctx: Context) => {
-
-        const dbLookup = async (ldapUser: any): Promise<User> => {
-
-            const dbUser = await ctx.prisma.query.user({where: {email: ldapUser.email}});
-
-            let user;
-            if (dbUser) {
-                user = await ctx.prisma.mutation.updateUser({data: ldapUser, where: {email: ldapUser.email}});
-            } else {
-                user = await ctx.prisma.mutation.createUser({data: ldapUser});
-            }
-            return user;
-        };
 
         return await new Promise((resolve, reject) => {
 
@@ -59,6 +45,7 @@ export const Mutation: any = {
             ldap.authenticate(username, password, async (error, ldapQueryUser) => {
 
                 if (error) {
+                    reject(error);
                     throw new Error('Failed to authenticate: ' + error);
                 }
 
@@ -76,10 +63,17 @@ export const Mutation: any = {
                     mobile: ldapQueryUser.mobile
                 };
 
-                let user = await dbLookup(ldapUser);
+                const dbUser = await ctx.prisma.query.user({where: {email: ldapUser.email}});
+
+                let user;
+                if (dbUser) {
+                    user = await ctx.prisma.mutation.updateUser({data: ldapUser, where: {email: ldapUser.email}});
+                } else {
+                    user = await ctx.prisma.mutation.createUser({data: ldapUser});
+                }
 
                 resolve({
-                    token: jwt.sign({id: user.id}, process.env.JWT_SECRET),
+                    token: jwt.sign(user, process.env.JWT_SECRET),
                     user
                 });
             });

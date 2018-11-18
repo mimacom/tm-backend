@@ -1,9 +1,3 @@
-enum Role {
-    USER,
-    MANAGER,
-    ADMIN
-}
-
 type User {
     id: ID! @unique
     createdAt: DateTime!
@@ -19,7 +13,7 @@ type User {
     workPhone: String
     workMobile: String
     mobile: String
-    role: Role @default(value: "USER")
+    roles: [ROLE!]
 }
 
 type Client {
@@ -28,6 +22,7 @@ type Client {
     updatedAt: DateTime!
     createdBy: User!
     name: String!
+    shared: Boolean! @default(value: "true")
 }
 
 type Project {
@@ -35,8 +30,9 @@ type Project {
     createdAt: DateTime!
     updatedAt: DateTime!
     createdBy: User!
-    client: Client!
     name: String!
+    shared: Boolean! @default(value: "true")
+    client: Client!
 }
 
 type Expense {
@@ -52,7 +48,16 @@ type ExpenseType {
     id: ID! @unique
     createdAt: DateTime!
     updatedAt: DateTime!
-    code: String!
     name: String!
     description: String
+}
+
+type TimeEntry {
+    id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    createdBy: User!
+    startAt: DateTime!
+    endAt: DateTime
+    project: Project
 }

@@ -1,10 +1,10 @@
 import {GraphQLServer} from 'graphql-yoga';
 import {Props, ContextParameters} from 'graphql-yoga/dist/types';
-import jwt = require('express-jwt');
 
-import {security} from './resolvers/security';
-import {resolvers} from './resolvers';
-import {Prisma} from 'gen/prisma';
+import {security} from '@security';
+import {resolvers} from '@resolvers';
+import {Prisma} from '@gen/prisma';
+import jwt = require('express-jwt');
 
 const prisma = new Prisma({
     endpoint: process.env.PRISMA_ENDPOINT,

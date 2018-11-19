@@ -1,4 +1,4 @@
-import {Context} from 'interfaces/context';
+import {Context} from '@interfaces/context';
 
 export const Subscription = {
     me: {

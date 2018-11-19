@@ -1,4 +1,4 @@
-import {Prisma, User} from 'gen/prisma';
+import {Prisma, User} from '@gen/prisma';
 import {ContextParameters} from 'graphql-yoga/dist/types';
 
 export interface Context extends ContextParameters {

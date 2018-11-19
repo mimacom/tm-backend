@@ -1,9 +1,11 @@
 {
     "name": "tm-backend",
     "_moduleAliases": {
-        "gen": "dist/gen",
-        "interfaces": "dist/interfaces",
-        "utils": "dist/utils"
+        "@gen": "dist/gen",
+        "@interfaces": "dist/interfaces",
+        "@utils": "dist/utils",
+        "@security": "dist/security",
+        "@resolvers": "dist/resolvers"
     },
     "scripts": {
         "start": "node -r tsconfig-paths/register -r ts-node/register src/index.ts",
@@ -23,14 +25,14 @@
         "regen-schema": "run-s schema types"
     },
     "dependencies": {
-        "module-alias": "2.1.0",
-        "graphql-yoga": "1.16.7",
-        "graphql-shield": "4.1.0",
-        "prisma-binding": "2.1.6",
-        "express-jwt": "5.3.1",
-        "jsonwebtoken": "8.4.0",
         "bcryptjs": "2.4.3",
-        "ldapauth-fork-plus": "4.0.1"
+        "express-jwt": "5.3.1",
+        "graphql-shield": "4.1.0",
+        "graphql-yoga": "1.16.7",
+        "jsonwebtoken": "8.4.0",
+        "ldapauth-fork-plus": "4.0.1",
+        "module-alias": "2.1.0",
+        "prisma-binding": "2.1.6"
     },
     "devDependencies": {
         "@types/bcryptjs": "2.4.2",

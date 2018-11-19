@@ -8,11 +8,12 @@
         "outDir": "dist",
         "lib": [
             "es6",
+            "es2015",
             "esnext"
         ],
         "baseUrl": ".",
         "paths": {
-            "*": [
+            "@*": [
                 "./src/*"
             ]
         }

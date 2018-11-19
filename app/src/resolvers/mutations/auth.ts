@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcryptjs'
 import * as LdapAuth from 'ldapauth-fork-plus';
 
-import {Context} from 'interfaces/context';
+import {Context} from '@interfaces/context';
 
 export const Mutation: any = {
 

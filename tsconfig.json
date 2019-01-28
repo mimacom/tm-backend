@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "dist",
+        "lib": [
+            "es6",
+            "es2015",
+            "esnext"
+        ],
+        "baseUrl": "."
+    },
+    "files": [
+        "src/index.ts"
+    ]
+}

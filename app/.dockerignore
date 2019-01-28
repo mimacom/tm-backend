@@ -1,7 +1,0 @@
-database
-node_modules
-.env
-.gitignore
-.graphqlconfig.yml
-Dockerfile
-tsconfig.json

@@ -1,5 +1,0 @@
-enum ROLE {
-    USER,
-    MANAGER,
-    ADMIN
-}

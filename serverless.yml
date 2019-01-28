@@ -1,0 +1,25 @@
+service: graphql-api
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  profile: mimacom
+
+functions:
+  graphql:
+    handler: dist/index.server
+    events:
+      - http:
+          path: /
+          method: post
+          cors: true
+  playground:
+    handler: dist/index.playground
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
